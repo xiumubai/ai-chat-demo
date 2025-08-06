@@ -7,6 +7,7 @@ import Header from './components/Header'
 import ApiKeyConfig from './components/ApiKeyConfig'
 import ChatWindow from './components/ChatWindow'
 import SessionList from './components/SessionList'
+import AssistantsContainer from './components/assistants/AssistantsContainer'
 import { useApiKey } from './contexts/useApiKey'
 
 // 内部组件，用于条件渲染聊天界面或API密钥配置界面
@@ -49,6 +50,9 @@ const AppContent = () => {
             
             {/* 聊天窗口 */}
             <ChatWindow toggleSidebar={toggleSidebar} />
+            
+            {/* 助手工具容器 */}
+            {isConfigured && <AssistantsContainer />}
           </div>
         )}
       </main>

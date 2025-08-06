@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useApiKey } from '../contexts/useApiKey';
 
 /**
- * API密钥配置组件
- * @returns {JSX.Element} - API密钥配置组件
+ * 登录组件
+ * @returns {JSX.Element} - 登录组件
  */
 const ApiKeyConfig = () => {
   const { apiKey: storedApiKey, isValidating, error, saveApiKey } = useApiKey();
@@ -11,9 +11,9 @@ const ApiKeyConfig = () => {
   const [showApiKey, setShowApiKey] = useState(false);
 
   /**
-   * 处理保存API密钥
+   * 处理登录
    */
-  const handleSave = async () => {
+  const handleLogin = async () => {
     if (!apiKey.trim()) return;
     await saveApiKey(apiKey.trim());
   };
@@ -27,11 +27,11 @@ const ApiKeyConfig = () => {
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow sm:rounded-lg p-6 max-w-lg mx-auto">
-      <h2 className="text-xl font-semibold mb-4">配置DeepSeek API密钥</h2>
+      <h2 className="text-xl font-semibold mb-4">登录AI聊天助手</h2>
       
       <p className="mb-4 text-gray-600 dark:text-gray-400">
-        请输入您的DeepSeek API密钥以开始使用AI聊天助手。
-        您的API密钥将只存储在您的浏览器中，不会发送到任何其他服务器。
+        请使用您的DeepSeek API密钥登录以开始使用AI聊天助手。
+        您的API密钥将安全地存储在您的浏览器中，不会发送到任何其他服务器。
       </p>
       
       <div className="mt-4">
@@ -40,7 +40,7 @@ const ApiKeyConfig = () => {
             type={showApiKey ? 'text' : 'password'}
             value={apiKey}
             onChange={(e) => setApiKey(e.target.value)}
-            placeholder="输入您的DeepSeek API密钥"
+            placeholder="输入您的API密钥进行登录"
             className="w-full p-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           />
           <button
@@ -67,7 +67,7 @@ const ApiKeyConfig = () => {
         )}
         
         <button
-          onClick={handleSave}
+          onClick={handleLogin}
           disabled={!apiKey.trim() || isValidating}
           className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 flex justify-center items-center"
         >
@@ -77,10 +77,10 @@ const ApiKeyConfig = () => {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              验证中...
+              登录中...
             </>
           ) : (
-            '保存并开始聊天'
+            '登录'
           )}
         </button>
       </div>

@@ -8,28 +8,15 @@ import { useState } from 'react';
  * @param {Function} props.toggleSidebar - 切换侧边栏的函数
  * @returns {JSX.Element} - 页面头部组件
  */
-const Header = ({ toggleSidebar }) => {
+const Header = () => {
   const { isConfigured, clearApiKey } = useApiKey();
   const { darkMode, toggleTheme } = useTheme();
-  const [showingApiConfig, setShowingApiConfig] = useState(false);
-  console.log(toggleSidebar);
+  const [showingLogoutConfirm, setShowingLogoutConfirm] = useState(false);
   
   return (
     <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 h-16">
       <div className="h-full px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         <div className="flex items-center">
-          {/* 移动端菜单按钮 */}
-          {/* {isConfigured && (
-            <button
-              onClick={toggleSidebar}
-              className="md:hidden p-2 mr-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
-              aria-label="菜单"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          )} */}
           <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">AI聊天助手</h1>
         </div>
         
@@ -52,12 +39,11 @@ const Header = ({ toggleSidebar }) => {
           </button>
           
           {isConfigured && (
-            showingApiConfig ? (
+            showingLogoutConfirm ? (
               <div className="flex space-x-2">
                 <button
                   onClick={() => {
-                    clearApiKey(true); // 保持配置状态
-                    setShowingApiConfig(false);
+                    setShowingLogoutConfirm(false);
                   }}
                   className="text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1.5 rounded-md transition-colors"
                 >
@@ -65,20 +51,24 @@ const Header = ({ toggleSidebar }) => {
                 </button>
                 <button
                   onClick={() => {
-                    clearApiKey(false); // 完全清除配置
-                    setShowingApiConfig(false);
+                    // 完全清除配置和会话记录
+                    clearApiKey(false);
+                    setShowingLogoutConfirm(false);
                   }}
-                  className="text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 px-3 py-1.5 rounded-md transition-colors"
+                  className="text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 px-3 py-1.5 rounded-md transition-colors"
                 >
-                  确认重新配置
+                  确认退出
                 </button>
               </div>
             ) : (
               <button
-                onClick={() => setShowingApiConfig(true)}
-                className="text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 px-3 py-1.5 rounded-md transition-colors"
+                onClick={() => setShowingLogoutConfirm(true)}
+                className="text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 px-3 py-1.5 rounded-md transition-colors flex items-center"
               >
-                重新配置API密钥
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                退出登录
               </button>
             )
           )}

@@ -54,7 +54,7 @@ export const ApiKeyProvider = ({ children }) => {
   };
 
   /**
-   * 清除API密钥
+   * 清除API密钥和会话记录
    * @param {boolean} keepConfigured - 是否保持配置状态（不清除isConfigured标志）
    */
   const clearApiKey = (keepConfigured = false) => {
@@ -62,6 +62,9 @@ export const ApiKeyProvider = ({ children }) => {
       removeApiKey();
       setApiKey('');
       setIsConfigured(false);
+      // 清除所有会话记录
+      localStorage.removeItem('sessions');
+      localStorage.removeItem('currentSessionId');
     }
     setError(null);
   };

@@ -60,7 +60,7 @@ const ChatMessage = ({ message, isLast }) => {
         </div>
         
         {isUser && (
-          <div className="flex-shrink-0 ml-3 self-end mb-1">
+          <div className="flex-shrink-0 ml-3 mr-3 self-end mb-1">
             <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-700 dark:text-gray-200 font-medium shadow-sm">
               您
             </div>
