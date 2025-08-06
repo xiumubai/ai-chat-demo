@@ -3,9 +3,11 @@ import { useChat } from '../contexts/useChatHook';
 
 /**
  * 会话列表组件
+ * @param {Object} props - 组件属性
+ * @param {Function} props.closeSidebar - 关闭侧边栏的函数（移动端使用）
  * @returns {JSX.Element} - 会话列表组件
  */
-const SessionList = () => {
+const SessionList = ({ closeSidebar }) => {
   const { sessions, currentSession, createSession, switchSession, deleteSession } = useChat();
   const [isCreating, setIsCreating] = useState(false);
   const [newSessionTitle, setNewSessionTitle] = useState('');
@@ -48,6 +50,18 @@ const SessionList = () => {
   };
   
   /**
+   * 处理切换会话
+   * @param {string} sessionId - 要切换到的会话ID
+   */
+  const handleSwitchSession = (sessionId) => {
+    switchSession(sessionId);
+    // 在移动端上关闭侧边栏
+    if (closeSidebar) {
+      closeSidebar();
+    }
+  };
+
+  /**
    * 格式化日期
    * @param {string} dateString - ISO格式的日期字符串
    * @returns {string} - 格式化后的日期字符串
@@ -58,9 +72,9 @@ const SessionList = () => {
   };
   
   return (
-    <div className="w-72 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 hidden md:flex flex-col h-full">
+    <div className="w-72 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col h-full">
       <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-        <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">AI聊天助手</h2>
+        {/* <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">AI聊天助手</h2> */}
         
         {isCreating ? (
           <div className="mb-2">
@@ -109,7 +123,7 @@ const SessionList = () => {
           sessions.map((session) => (
             <div
               key={session.id}
-              onClick={() => switchSession(session.id)}
+              onClick={() => handleSwitchSession(session.id)}
               className={`px-4 py-3 cursor-pointer flex justify-between items-start group ${currentSession?.id === session.id 
                 ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-l-4 border-blue-600 dark:border-blue-500' 
                 : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/60'}`}
