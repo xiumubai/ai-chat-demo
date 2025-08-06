@@ -1,9 +1,7 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getApiKey, saveApiKey as saveApiKeyToStorage, removeApiKey } from '../utils/localStorage';
 import { validateApiKey } from '../services/api';
-
-// 创建上下文
-const ApiKeyContext = createContext();
+import { ApiKeyContext } from './ApiKeyContextProvider';
 
 /**
  * API密钥上下文提供者组件
@@ -57,11 +55,14 @@ export const ApiKeyProvider = ({ children }) => {
 
   /**
    * 清除API密钥
+   * @param {boolean} keepConfigured - 是否保持配置状态（不清除isConfigured标志）
    */
-  const clearApiKey = () => {
-    removeApiKey();
-    setApiKey('');
-    setIsConfigured(false);
+  const clearApiKey = (keepConfigured = false) => {
+    if (!keepConfigured) {
+      removeApiKey();
+      setApiKey('');
+      setIsConfigured(false);
+    }
     setError(null);
   };
 
@@ -76,16 +77,4 @@ export const ApiKeyProvider = ({ children }) => {
   };
 
   return <ApiKeyContext.Provider value={value}>{children}</ApiKeyContext.Provider>;
-};
-
-/**
- * 使用API密钥上下文的自定义Hook
- * @returns {Object} - API密钥上下文值
- */
-export const useApiKey = () => {
-  const context = useContext(ApiKeyContext);
-  if (context === undefined) {
-    throw new Error('useApiKey必须在ApiKeyProvider内部使用');
-  }
-  return context;
 };

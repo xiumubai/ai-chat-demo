@@ -1,7 +1,5 @@
-import { createContext, useState, useContext, useEffect } from 'react';
-
-// 创建上下文
-const ThemeContext = createContext();
+import { useState, useEffect } from 'react';
+import { ThemeContext } from './ThemeContextProvider';
 
 /**
  * 主题上下文提供者组件
@@ -41,16 +39,4 @@ export const ThemeProvider = ({ children }) => {
   };
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
-};
-
-/**
- * 使用主题上下文的自定义Hook
- * @returns {Object} - 主题上下文值
- */
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error('useTheme必须在ThemeProvider内部使用');
-  }
-  return context;
 };

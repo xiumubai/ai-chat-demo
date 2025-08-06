@@ -1,5 +1,6 @@
-import { useApiKey } from '../contexts/ApiKeyContext';
-import { useTheme } from '../contexts/ThemeContext';
+import { useApiKey } from '../contexts/useApiKey';
+import { useTheme } from '../contexts/useTheme';
+import { useState } from 'react';
 
 /**
  * 页面头部组件
@@ -8,6 +9,7 @@ import { useTheme } from '../contexts/ThemeContext';
 const Header = () => {
   const { isConfigured, clearApiKey } = useApiKey();
   const { darkMode, toggleTheme } = useTheme();
+  const [showingApiConfig, setShowingApiConfig] = useState(false);
   
   return (
     <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 h-16">
@@ -35,12 +37,35 @@ const Header = () => {
           </button>
           
           {isConfigured && (
-            <button
-              onClick={clearApiKey}
-              className="text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 px-3 py-1.5 rounded-md transition-colors"
-            >
-              重新配置API密钥
-            </button>
+            showingApiConfig ? (
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => {
+                    clearApiKey(true); // 保持配置状态
+                    setShowingApiConfig(false);
+                  }}
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1.5 rounded-md transition-colors"
+                >
+                  取消
+                </button>
+                <button
+                  onClick={() => {
+                    clearApiKey(false); // 完全清除配置
+                    setShowingApiConfig(false);
+                  }}
+                  className="text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 px-3 py-1.5 rounded-md transition-colors"
+                >
+                  确认重新配置
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowingApiConfig(true)}
+                className="text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 px-3 py-1.5 rounded-md transition-colors"
+              >
+                重新配置API密钥
+              </button>
+            )
           )}
         </div>
       </div>

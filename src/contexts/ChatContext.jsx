@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useApiKey } from './ApiKeyContext';
+import { useApiKey } from './useApiKey';
 import { sendMessage } from '../services/api';
 import { ChatContext } from './ChatContextProvider';
 import {

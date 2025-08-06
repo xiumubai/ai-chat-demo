@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useApiKey } from '../contexts/ApiKeyContext';
+import { useApiKey } from '../contexts/useApiKey';
 
 /**
  * API密钥配置组件
